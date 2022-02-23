@@ -40,3 +40,5 @@ Certificates are placed to `./certs` folder
 To generate them follow articles:
 [https://gist.github.com/exAspArk/f738f0771e2675e7f4c3b5d11403efd8](https://gist.github.com/exAspArk/f738f0771e2675e7f4c3b5d11403efd8)
 [https://docs.aws.amazon.com/iot/latest/developerguide/create-CA-verification-cert.html?icmpid=docs_iot_console_secure_ca_reg](https://docs.aws.amazon.com/iot/latest/developerguide/create-CA-verification-cert.html?icmpid=docs_iot_console_secure_ca_reg)
+
+To get *root-CA.crt* I run curl https://www.amazontrust.com/repository/AmazonRootCA1.pem > root-CA.crt
