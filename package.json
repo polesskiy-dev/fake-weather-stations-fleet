@@ -1,0 +1,12 @@
+{
+  "name": "fake-weather-stations-fleet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fake-weather-stations-fleet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
