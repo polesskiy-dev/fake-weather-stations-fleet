@@ -56,3 +56,5 @@ It's important to Allow * for certificate policy. Policy example:
   ]
 }
 ```
+![](assets/Screenshot 2022-02-24 at 00.28.55.png)
+
