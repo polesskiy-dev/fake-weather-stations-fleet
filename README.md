@@ -56,5 +56,5 @@ It's important to Allow * for certificate policy. Policy example:
   ]
 }
 ```
-![mqqt test](assets/Screenshot 2022-02-24 at 00.28.55.png)
 
+![mqqt test](assets/Screenshot.png)
