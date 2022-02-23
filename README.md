@@ -42,3 +42,17 @@ To generate them follow articles:
 [https://docs.aws.amazon.com/iot/latest/developerguide/create-CA-verification-cert.html?icmpid=docs_iot_console_secure_ca_reg](https://docs.aws.amazon.com/iot/latest/developerguide/create-CA-verification-cert.html?icmpid=docs_iot_console_secure_ca_reg)
 
 To get *root-CA.crt* I run curl https://www.amazontrust.com/repository/AmazonRootCA1.pem > root-CA.crt
+
+It's important to Allow * for certificate policy. Policy example:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    }
+  ]
+}
+```

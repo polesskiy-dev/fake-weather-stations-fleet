@@ -7,13 +7,17 @@ const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSecond
 const dateTime = date + ' ' + time;
 
 const device = awsIot.device({
-    // clientId: 'fake-weather-station-2',
-    clientId: 'sdk-nodejs-a0a563bc-ae1b-460b-93cc-1335710015b6',
+    clientId: 'fake-weather-station-2',
+    // clientId: 'sdk-nodejs-a0a563bc-ae1b-460b-93cc-1335710015b6',
     host: 'a16z51cgzk8vdr-ats.iot.eu-central-1.amazonaws.com',
-    port: 8883,
+    // port: 8883,
     keyPath: './certs/fake-weather-station-2.private.key',
     certPath: './certs/fake-weather-station-2.cert.pem',
     caPath: './certs/root-CA.crt',
+    protocol: "mqtts",
+    keepalive: 300,
+    baseReconnectTimeMs: 4000,
+    debug: true
 });
 
 
@@ -32,16 +36,10 @@ const IoTDevice = {
  * "topicHouse1:: This topic is used for a specific home and for an specific purpose. In this case, we can use it for send temperature data.
  */
 
-const topicCoreBroadcast = "core/broadcast"
-const topicHouse1 = "house/1/temperature"
-const topicRepublish = "core/republish"
+const topic = "test-topic"
 
-const getSensorData = (cb) => getDummySensorData(cb);
-const getDummySensorData = (cb) => {
-    const temperatureData = { temp: '100°C', humidity: '52%' }
-    return cb(temperatureData)
-
-}
+device.subscribe(topic);
+// device.subscribe('topic_1');
 
 const sendData = (data) => {
     const telemetryData = {
@@ -50,7 +48,7 @@ const sendData = (data) => {
     }
     console.log(`STEP - Sending data to AWS  IoT Core'`, telemetryData)
     console.log(`---------------------------------------------------------------------------------`)
-    return device.publish(topicHouse1, JSON.stringify(telemetryData))
+    return device.publish(topic, JSON.stringify(telemetryData))
 }
 
 // We connect our client to AWS  IoT core.
@@ -58,18 +56,42 @@ device
   .on('connect', function () {
       console.log('STEP - Connecting to AWS  IoT Core');
       console.log(`---------------------------------------------------------------------------------`)
-      setInterval(() => getSensorData(sendData), 3000)
-
+      setInterval(() => sendData({ temp: '100°C', humidity: '52%' }), 3000)
   });
+
 
 
 // Set handler for the device, it will get the messages from subscribers topics.
+// device
+//   .on('message', function (topic, payload) {
+//       console.log('message', topic, payload);
+//   });
+//
+// device
+//   .on('error', function (topic, payload) {
+//       console.log('Error:', topic, payload ? payload.toString() : "Unexpected error");
+//   });
 device
-  .on('message', function (topic, payload) {
-      console.log('message', topic, payload.toString());
+  .on('connect', function() {
+      console.log('connect');
   });
-
 device
-  .on('error', function (topic, payload) {
-      console.log('Error:', topic, payload);
+  .on('close', function() {
+      console.log('close');
+  });
+device
+  .on('reconnect', function() {
+      console.log('reconnect');
+  });
+device
+  .on('offline', function() {
+      console.log('offline');
+  });
+device
+  .on('error', function(error) {
+      console.log('error', error);
+  });
+device
+  .on('message', function(topic, payload) {
+      console.log('message', topic, payload.toString());
   });
